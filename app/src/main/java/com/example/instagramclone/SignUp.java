@@ -27,6 +27,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     private TextView txtGetData;
     private Button btnGetAllData;
     private  String allKickBoxers;
+    private Button btnTransition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         txtGetData = findViewById(R.id.txtGetData);
         btnGetAllData = findViewById(R.id.btnGetAllData);
 
+        btnTransition = findViewById(R.id.btnNextActivity);
+
         txtGetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,8 +61,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
 
                                     if ( object != null && e == null) {
+
                                         txtGetData.setText(object.get("name") + " - " +
-                                                "Punch Power: " + object.get("punchPower"));
+                                                "Punch Power: " + object.get("punch_power"));
                               }
 //                                    else {
 //                                        FancyToast.makeText(SignUp.this, e.getMessage(), FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
@@ -76,6 +80,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
                 allKickBoxers = "";
                 ParseQuery<ParseObject> queryAll = ParseQuery.getQuery("KickBoxer");
+
+               // queryAll.whereGreaterThan("punch_power", 2000); //going to get all those objects with punch power greater than 100
+                queryAll.whereGreaterThanOrEqualTo("punch_power", 2000);
+                queryAll.setLimit(1); //only one will show of the upper condition.
                 queryAll.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
@@ -96,6 +104,13 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                         }
                     }
                 });
+            }
+        });
+
+        btnTransition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
